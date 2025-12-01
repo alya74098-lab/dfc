@@ -1,0 +1,210 @@
+/* ------------------- Variables & Base ------------------- */
+:root{
+  --primary:#ff6b00;
+  --accent:#e63946;
+  --bg:#f8f8f8;
+  --dark:#2b2b2b;
+  --muted:#6b6b6b;
+  --card:#fff;
+  --glass: rgba(255,255,255,0.85);
+  --placeholder:#eef1f4;
+
+  /* Poster / hero sizing (ubah di sini untuk menyesuaikan ukuran) */
+  --aside-width: 300px;       /* lebar kolom kanan pada hero */
+  --poster-height: 220px;     /* tinggi area poster */
+  --hero-min-height: 240px;   /* minimal tinggi kartu hero */
+  --poster-font-size: 16px;   /* ukuran font label poster */
+  --poster-label-padding: 6px 10px; /* padding label di poster */
+  --menu-thumb-height: 140px; /* tinggi thumbnail menu */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, "Segoe UI", Tahoma, sans-serif;
+  background: linear-gradient(180deg,#fff,#f6f6f8 60%);
+  color:var(--dark);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+}
+.container{Width:94%;max-width:1200px;margin:0 auto;padding:0 16px;}
+
+/* ------------------- Header ------------------- */
+header{
+  position:fixed;left:0;right:0;top:0;z-index:1100;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:saturate(120%) blur(6px);
+  border-bottom:1px solid rgba(20,20,20,0.05);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0;}
+.logo{display:flex;align-items:center;gap:12px}
+.logo h1{font-size:20px;margin:0;color:var(--primary);letter-spacing:0.4px}
+.logo sup{font-size:12px;color:var(--muted)}
+nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center}
+nav a{Color:var(--dark);text-decoration:none;font-weight:600;padding:8px;border-radius:8px}
+nav a:hover, nav a.active{color:white;background:var(--primary)}
+.mobile-toggle{display:none;font-size:20px;cursor:pointer}
+
+/* ------------------- Hero / Posters (sized smaller) ------------------- */
+.hero{
+  margin-top:72px;
+  padding:26px 0 20px;
+  perspective:1200px;
+}
+.hero-grid{display:grid;grid-template-columns:1fr var(--aside-width);gap:20px;align-items:center}
+.hero-card{
+  background:linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,0,0,0.02));
+  border-radius:14px;
+  padding:20px;
+  color:var(--dark);
+  min-height:var(--hero-min-height);
+  position:relative;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;overflow:hidden;
+}
+.hero-card h2{font-size:28px;margin:6px 0 8px;letter-spacing:0.4px}
+.hero-card p{max-width:650px;margin:0 0 14px;color:rgba(0,0,0,0.75)}
+.cta-row{display:flex;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;border:0;cursor:pointer;font-weight:700;text-decoration:none}
+.btn-primary{background:var(--primary);color:white}
+.btn-outline{background:transparent;border:2px solid rgba(0,0,0,0.08);color:var(--dark)}
+
+/* Posters flip (ukuran lebih kecil dan konsisten) */
+.poster-wrap{position:relative;width:100%;height:var(--poster-height);display:block;transform-style:preserve-3d;}
+.poster{
+  position:absolute;inset:0;border-radius:12px;background-size:cover;background-position:center;
+  backface-visibility:hidden;transform-origin:center center;box-shadow:0 10px 30px rgba(0,0,0,0.06);
+  display:flex;align-items:flex-end;padding:14px;color:white;font-weight:700;font-size:var(--poster-font-size);
+  transition: transform 700ms cubic-bezier(.2,.9,.3,1), opacity 700ms ease;
+  opacity:0;transform:rotateY(-90deg) scale(0.96);
+  overflow:hidden;
+}
+.poster.active{opacity:1;transform:rotateY(0deg) scale(1)}
+.poster .label{background:linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.15));padding:var(--poster-label-padding);border-radius:8px; font-size:0.95em;}
+.poster[data-img=""]{ background-color:var(--placeholder); color:var(--muted); align-items:center; justify-content:center; font-weight:700; font-size:14px; }
+
+/* new: smaller image variant for specific posters */
+.poster.small-img {
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+.poster.small-img .label {
+  padding: 6px 10px;
+  font-size: 15px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.18));
+}
+
+/* Right column: cart summary */
+.aside-card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(25,25,25,0.05)}
+.cart-toggle{display:flex;align-items:center;gap:12px;cursor:pointer}
+.cart-count{background:var(--accent);color:white;padding:6px 10px;border-radius:999px;font-weight:700}
+
+/* ------------------- Sections ------------------- */
+section.page-section{padding:44px 0 72px;display:none;padding-top:90px}
+section.page-section.active{display:block}
+h2.section-title{text-align:center;font-size:28px;margin:6px 0 24px;position:relative}
+h2.section-title:after{content:"";width:90px;height:4px;background:var(--primary);display:block;margin:14px auto 0;border-radius:3px}
+
+/* menu grid */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.menu-item{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(20,20,20,0.05);display:flex;flex-direction:column}
+.menu-thumb{height:var(--menu-thumb-height);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+.menu-thumb[data-img=""]{background-color:var(--placeholder)}
+.menu-body{padding:14px;flex:1;display:flex;flex-direction:column}
+.menu-body h3{margin:0 0 6px;font-size:16px}
+.menu-body p{color:var(--muted);font-size:13px;margin-bottom:8px;flex:1}
+.menu-footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.price-btn{background:transparent;border:0;color:var(--primary);font-weight:800;cursor:pointer}
+
+/* cart panel */
+.cart-panel{position:fixed;right:18px;bottom:18px;z-index:1200}
+.cart-fab{background:linear-gradient(90deg,var(--primary),var(--accent));color:white;border-radius:999px;padding:12px 16px;display:flex;align-items:center;gap:8px;box-shadow:0 12px 30px rgba(255,110,40,0.15);cursor:pointer}
+.cart-drawer{position:fixed;right:18px;bottom:80px;width:360px;max-width:92vw;background:var(--card);border-radius:12px;padding:12px;box-shadow:0 20px 50px rgba(0,0,0,0.12);display:none;flex-direction:column;overflow:hidden}
+.cart-drawer.open{display:flex}
+.cart-items{max-height:360px;overflow:auto;padding:6px}
+.cart-row{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px}
+.cart-row img{width:64px;height:48px;object-fit:cover;border-radius:8px}
+.qty-control{display:flex;gap:6px;align-items:center}
+.small-btn{padding:6px 8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#f7f7f9;cursor:pointer}
+
+.cart-footer{display:flex;flex-direction:column;gap:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,0.06)}
+.checkout-btn{background:linear-gradient(90deg,var(--accent),var(--primary));color:white;padding:10px;border-radius:10px;border:0;font-weight:800;cursor:pointer}
+
+/* checkout modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1300}
+.modal-backdrop.show{display:flex}
+.modal{background:var(--card);padding:18px;border-radius:12px;width:420px;max-width:94%;box-shadow:0 20px 50px rgba(0,0,0,0.2)}
+.form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+input[type=text],textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e6e9}
+textarea{min-height:110px;resize:vertical}
+
+/* Services grid - improved styling for symmetry */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  align-items:stretch;
+}
+.service-card{
+  background:var(--card);
+  padding:18px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.04);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:140px;
+}
+.service-icon{
+  width:52px;
+  height:52px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  margin-bottom:12px;
+  font-size:20px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+}
+
+/* Branch / locations list (no map image) */
+.branches-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+  align-items:start;
+}
+.branch-card{
+  background:var(--card);
+  border-radius:10px;
+  padding:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.04);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.branch-card h5{margin:0;font-size:16px;color:var(--primary)}
+.branch-meta{font-size:14px;color:var(--muted)}
+.branch-actions a{display:inline-block;margin-top:6px;color:#007bff;text-decoration:underline;font-size:14px}
+
+/* Footer */
+footer{padding:36px 0;background:linear-gradient(180deg,#111 0%, #0c0c0c 100%);color:#ddd;margin-top:36px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.footer h4{color:#fff;margin-bottom:8px}
+.social{display:flex;gap:8px}
+
+/* Responsive */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr}
+  .mobile-toggle{display:block}
+  nav ul{display:none}
+  nav ul.show{display:flex;position:absolute;left:16px;right:16px;top:60px;background:var(--glass);flex-direction:column;padding:12px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+  .cart-drawer{right:12px;left:12px;bottom:80px}
+  .poster-wrap{height:160px;} /* poster lebih kecil di mobile */
+  .poster.small-img { background-size: contain !important; }
+}
